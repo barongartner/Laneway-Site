@@ -41,6 +41,12 @@
   --contradicted:#D14238;
   --shadow:0 10px 30px rgba(23,33,51,.07);
   --dead:#A9A296;
+  /* The closing block is navy in both schemes and never flips with the theme.
+     Using --ink and --paper here would invert it into a glaring near-white
+     slab in dark mode; pinned, it reads as a dark plate on paper and as a
+     slightly raised panel against the night background. */
+  --plate:#172133;
+  --plate-fg:#F7F5ED;
 }
 @media (prefers-color-scheme:dark){
   :root{
@@ -217,10 +223,13 @@ h3{font-size:18px;margin:0 0 7px;font-weight:650}
 .claim blockquote{
   margin:0;font-size:16px;line-height:1.45;font-weight:560;
 }
+/* margin-top:auto pins the source block to the bottom so the three cards
+   line their citations up even though the quotes are different lengths. */
 .claim .src{
   margin-top:auto;padding-top:14px;font-size:12.5px;color:var(--subtle);
-  border-top:1px solid var(--rail);margin-top:16px;
+  border-top:1px solid var(--rail);
 }
+.claim blockquote{margin-bottom:16px}
 .claim .src span{display:block}
 .claim .src .u{color:var(--ink);word-break:break-word}
 
@@ -260,12 +269,13 @@ h3{font-size:18px;margin:0 0 7px;font-weight:650}
 /* ---------- closing ---------- */
 
 .closer{
-  background:var(--ink);color:var(--paper);border-radius:24px;
+  background:var(--plate);color:var(--plate-fg);border-radius:24px;
   padding:clamp(30px,5vw,52px);margin:0 0 clamp(48px,8vw,80px);
+  border:1px solid color-mix(in srgb,var(--plate-fg) 12%,transparent);
 }
 .closer h2{max-width:22ch}
-.closer p{color:color-mix(in srgb,var(--paper) 72%,transparent);max-width:56ch;font-size:16.5px}
-.closer .btn.ghost{background:transparent;border-color:color-mix(in srgb,var(--paper) 30%,transparent);color:var(--paper)}
+.closer p{color:color-mix(in srgb,var(--plate-fg) 74%,transparent);max-width:56ch;font-size:16.5px}
+.closer .btn.ghost{background:transparent;border-color:color-mix(in srgb,var(--plate-fg) 32%,transparent);color:var(--plate-fg)}
 
 footer{border-top:1px solid var(--rail);padding:30px 0 44px;color:var(--subtle);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
