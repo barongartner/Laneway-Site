@@ -113,7 +113,10 @@ header.top{
 
 /* ---------- hero ---------- */
 
-.hero{padding:clamp(56px,10vw,104px) 0 clamp(32px,6vw,56px)}
+/* Longhands only. This element is also a .wrap, and a padding shorthand here
+   would reset the gutter to zero, putting the headline against the edge of a
+   phone screen. */
+.hero{padding-top:clamp(56px,10vw,104px);padding-bottom:clamp(32px,6vw,56px)}
 .hero h1{
   font-size:clamp(38px,7.2vw,72px);
   line-height:1.04;margin:22px 0 0;font-weight:700;max-width:16ch;

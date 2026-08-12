@@ -73,7 +73,10 @@ header.top{
 
 /* ---------- masthead ---------- */
 
-.masthead{padding:clamp(46px,9vw,84px) 0 clamp(26px,4vw,38px)}
+/* Longhands only. This element is also a .wrap, and a padding shorthand here
+   would reset the gutter to zero, putting the text against the edge of a
+   phone screen. */
+.masthead{padding-top:clamp(46px,9vw,84px);padding-bottom:clamp(26px,4vw,38px)}
 .masthead h1{font-size:clamp(34px,6vw,56px);line-height:1.06;margin:14px 0 0;font-weight:700}
 .masthead p{color:var(--subtle);max-width:60ch;font-size:17px;margin:18px 0 0}
 
