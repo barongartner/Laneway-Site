@@ -1,7 +1,7 @@
 # The site exists: landing page and dev log - Wednesday Aug 12
 
 *Time worked: the site work is anchored to the 11:36 AM repo clone and ran to
-11:47 AM. The opening prompt came a few minutes before the clone and was not
+11:54 AM. The opening prompt came a few minutes before the clone and was not
 separately timestamped, so it is left unstated rather than guessed. This
 session had been working on Laneway in the product repo immediately before,
 finishing the Live Activity design cards at 11:29 AM.*
@@ -73,7 +73,42 @@ no-third-party-requests rules, and the note that the dev log is a curated
 view of the private journal rather than a copy.
 
 **"Host them with GitHub Pages."** A local preview server was declined, so
-verification happened against the live Pages URL instead.
+verification happened against the live Pages URL instead. Pages enabled on
+`main` at the repo root, first build live at 11:48 AM.
+
+**Three real bugs found during verification, all after the first deploy.**
+Worth recording because two of them were invisible in the way I was
+looking at the page.
+
+- **The closing plate inverted in dark mode.** It was painted
+  `background: var(--ink); color: var(--paper)`, and both tokens flip with
+  the scheme, so in dark mode it rendered as a near-white slab across the
+  full width. Now it has its own pinned tokens (`--plate`, `--plate-fg`)
+  that do not flip: a dark plate on paper, a slightly raised panel against
+  the night background. **The general lesson: a block that deliberately
+  inverts the page cannot be built out of the page's own inverting
+  tokens.**
+- **The claim cards declared `margin-top` twice** on the citation block, so
+  the later `16px` silently beat the `margin-top:auto` that was supposed to
+  pin citations to the bottom. With quotes of different lengths the three
+  citations did not line up. Found by reading computed styles, not by
+  looking; the misalignment is subtle enough to read as intentional.
+- **The hero and the masthead killed the page gutter.** Both elements carry
+  `.wrap` for the horizontal gutter and then set their own `padding` with
+  the shorthand, which resets left and right to zero. At desktop width the
+  1060px max-width supplies its own margins so nothing looks wrong; at
+  375px the headline sat flush against the edge of the screen. Longhands
+  now. **Anything that is also a `.wrap` must use padding longhands.**
+
+**Host gotcha, cost about ten minutes.** The browser pane on this Mac
+screenshots pure black at any scroll offset other than zero, and it also
+served a stale cached copy of the page after a redeploy, which briefly
+looked like the plate fix had not worked. Two workarounds that did work:
+verify structure and computed styles through JavaScript rather than by
+eye, and to actually see a section, `display:none` the sections above it so
+the target renders at scroll zero. Cache-bust with a query string after
+every deploy. Both pages were confirmed in light and dark, at desktop and
+at 375px, with no horizontal overflow.
 
 ## Open
 
