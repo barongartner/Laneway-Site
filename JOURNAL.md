@@ -1,3 +1,57 @@
+# Moved to its own subdomain: lanewayapp.github.io - Tuesday Aug 18
+
+*Ended 4:58 PM, read off the clock. The start was not recorded, so no duration
+is claimed here.*
+
+## Timeline
+
+**"i want everything to be barongartner.github.io/everything except for
+laneway, that needs to be laneway.github.io".** GitHub decides the shape of a
+Pages URL from the repo name alone: a repo named `<account>.github.io` is
+served at the root of that subdomain, and every other repo is served in a
+subfolder under it. So the site could not be moved to its own subdomain by
+configuration. It needed an account of its own.
+
+**`laneway` was not available.** The org `github.com/Laneway` was registered on
+Aug 7 2021 and has never been used: zero public repos, zero followers, nothing
+pushed since the day it was created, and `laneway.github.io` returns a 404.
+GitHub does not release a held name for inactivity alone without a trademark
+claim, so it was treated as gone. Of the variants checked, `laneway-dev` was
+also taken; `lanewayapp`, `getlaneway`, `laneway-io`, `uselaneway` and several
+others were free. Owner picked `lanewayapp`.
+
+**The move.** A free organisation, `lanewayapp`, created by hand, since the
+GitHub API only allows org creation for Enterprise admins. Then the repo
+transferred from `barongartner/Laneway-Site` into it and renamed to
+`lanewayapp.github.io`. Pages carried its own configuration across both steps,
+kept building from `main` at `/`, and came back up at the root of the new
+subdomain.
+
+**What broke, on purpose.** `barongartner.github.io/Laneway-Site/` is now a 404.
+Repository URLs redirect after a transfer; Pages URLs do not. This cost nothing
+today because the page was not linked from anywhere public: the personal site at
+`barongartner.github.io` was checked and has no reference to Laneway.
+
+**What made the move cheap.** The rule in `CLAUDE.md` about keeping the pages
+free of anything painful to move. Both pages use relative links and inline
+styles, with no absolute path and no host hard-coded anywhere except the
+canonical URL in the `og:url` tags. Only two tags needed editing. That rule was
+written for a future move to a real domain and it paid out early.
+
+## Changed
+
+- `index.html`, `devlog.html`: `og:url` repointed at the new subdomain.
+- `README.md`: title and live URL.
+- `CLAUDE.md`: live URL, plus a note in "Why this is a separate repo" recording
+  why the repo now sits in an org rather than under the personal account.
+- Local clone: `origin` repointed. The directory is still `~/Desktop/laneway-site`.
+
+## Not done
+
+- The private `barongartner/LANEWAY` engine repo was not touched.
+- No custom domain. The `og:url` tags will need editing again if one is bought,
+  which is the same two lines.
+
 # Five Days of Dev Log Written at Once - Monday Aug 17
 
 *Time worked: about 10m (roughly 5:02 PM to 5:12 PM). Estimated from the first

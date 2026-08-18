@@ -1,9 +1,9 @@
-# laneway-site
+# lanewayapp.github.io
 
 The public landing page and dev log for **Laneway**, verified trip routing that
 includes the legs no map has indexed.
 
-Live at <https://barongartner.github.io/laneway-site/>.
+Live at <https://lanewayapp.github.io/>.
 
 ## Layout
 

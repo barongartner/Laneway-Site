@@ -3,7 +3,7 @@
 ## What this is
 
 The public face of Laneway: a landing page and an engineering dev log, served by
-GitHub Pages at <https://barongartner.github.io/laneway-site/>.
+GitHub Pages at <https://lanewayapp.github.io/>.
 
 Two files, one page each, both self-contained:
 
@@ -131,6 +131,12 @@ contribution graph counts it), and every commit Claude makes ends with a
 Claude directly, and never omit the trailer.
 
 ## Why this is a separate repo
+
+This repo lives in the `lanewayapp` organisation, not under `barongartner`. That
+is only so the site gets the root of its own subdomain: a user or org site is
+served at `<name>.github.io/`, while any other repo is served in a subfolder. The
+plain `laneway` org name was already taken by a dormant account registered in
+2021, so `lanewayapp` is the closest free variant.
 
 The engine repo is private, and GitHub Pages will not serve a site from a private
 repo without a paid plan. Making the engine public to publish a landing page would
