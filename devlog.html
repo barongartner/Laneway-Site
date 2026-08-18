@@ -14,8 +14,10 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23172133'/><path d='M9 25 Q9 13 16 13 Q23 13 23 7' stroke='%23E89E2E' stroke-width='3.2' fill='none' stroke-linecap='round'/><circle cx='9' cy='25' r='2.6' fill='%23E89E2E'/></svg>">
 <style>
-/* Same shell as index.html, kept self-contained so each page is one file
-   with no build step and nothing to fetch. Palette from the app's Theme.swift. */
+/* Same specimen shell as index.html, kept self-contained so each page is one
+   file with no build step and nothing to fetch. Palette from the app's
+   Theme.swift. Flat: hairlines, no radius, no shadow. The log's own numbers,
+   the versions and the counts, are set as the figures a specimen shows off. */
 
 :root{
   --paper:#F7F5ED;
@@ -25,10 +27,9 @@
   --rail:#D9D4C7;
   --accent:#E89E2E;
   --accent-deep:#B4761A;
-  --on-accent:#1F1705;
   --verified:#299E63;
   --contradicted:#D14238;
-  --shadow:0 10px 30px rgba(23,33,51,.07);
+  --guide:#B9B2A2;
 }
 @media (prefers-color-scheme:dark){
   :root{
@@ -40,7 +41,7 @@
     --accent-deep:#F0B355;
     --verified:#43BC7E;
     --contradicted:#EC6357;
-    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --guide:#47536A;
   }
 }
 
@@ -54,93 +55,162 @@ body{
 .serif{font-family:"New York",Georgia,"Times New Roman",serif;letter-spacing:-.02em}
 .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
   font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+.num{font-variant-numeric:tabular-nums}
 a{color:inherit}
-.wrap{max-width:820px;margin:0 auto;padding:0 clamp(18px,4vw,32px)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,4vw,32px)}
 
 header.top{
   position:sticky;top:0;z-index:50;
-  background:color-mix(in srgb,var(--paper) 88%,transparent);
-  backdrop-filter:saturate(180%) blur(14px);
-  -webkit-backdrop-filter:saturate(180%) blur(14px);
-  border-bottom:1px solid var(--rail);
+  background:var(--paper);
+  border-bottom:1px solid var(--ink);
 }
-.top .wrap{max-width:1060px;display:flex;align-items:center;gap:16px;height:60px}
+.top .wrap{display:flex;align-items:center;gap:16px;height:52px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:.16em;font-size:13px}
+.brand svg{flex:none}
 .top nav{margin-left:auto;display:flex;gap:clamp(14px,3vw,26px);align-items:center}
-.top nav a{color:var(--subtle);text-decoration:none;font-size:14px;transition:color .15s}
+.top nav a{color:var(--subtle);text-decoration:none;transition:color .15s}
 .top nav a:hover,.top nav a:focus-visible{color:var(--ink)}
 .top nav a[aria-current]{color:var(--ink)}
 
+/* ---------- the plate ---------- */
+
+/* Metric arithmetic, matched to index.html. For this class of grotesque the
+   cap height is .717em and the x-height .523em; in a line box of height .84
+   the baseline sits .15em above the bottom of the box. The wordmark is set
+   past the measure so the frame crops it, which is what a specimen does. */
+.plate{
+  --wm:min(27vw,310px);
+  --pb:clamp(14px,2.2vw,24px);
+  --base:calc(var(--pb) + .15 * var(--wm));
+  position:relative;overflow:hidden;
+  padding-top:clamp(34px,6vw,60px);
+  padding-bottom:var(--pb);
+}
+.plate-meta{
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  color:var(--subtle);margin-bottom:clamp(16px,3vw,30px);
+  position:relative;z-index:4;
+}
+.guides{position:absolute;left:0;right:0;top:0;bottom:0;z-index:3;pointer-events:none}
+.guides i{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--guide)}
+.guides i.solid{border-top-style:solid}
+.guides b{
+  position:absolute;right:0;margin-bottom:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--subtle);font-weight:400;line-height:1;
+  background:var(--paper);padding:0 3px 3px 7px;
+}
+.g-cap{bottom:calc(var(--pb) + .867 * var(--wm))}
+.g-x{bottom:calc(var(--pb) + .673 * var(--wm))}
+.g-base{bottom:var(--base)}
+
+.wordmark{
+  position:relative;z-index:2;
+  font-size:var(--wm);line-height:.84;
+  font-weight:800;letter-spacing:-.055em;
+  white-space:nowrap;
+}
+
+.plate-foot{
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  border-top:1px solid var(--guide);border-bottom:1px solid var(--ink);
+  padding:9px 0;color:var(--subtle);
+}
+
 /* ---------- masthead ---------- */
 
-/* Longhands only. This element is also a .wrap, and a padding shorthand here
-   would reset the gutter to zero, putting the text against the edge of a
-   phone screen. */
-.masthead{padding-top:clamp(46px,9vw,84px);padding-bottom:clamp(26px,4vw,38px)}
-.masthead h1{font-size:clamp(34px,6vw,56px);line-height:1.06;margin:14px 0 0;font-weight:700}
-.masthead p{color:var(--subtle);max-width:60ch;font-size:17px;margin:18px 0 0}
-
-.stats{
-  display:flex;flex-wrap:wrap;gap:2px;margin-top:34px;
-  border:1px solid var(--rail);border-radius:16px;overflow:hidden;background:var(--rail);
+.masthead{
+  display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:clamp(18px,4vw,52px);align-items:start;
+  padding-top:clamp(30px,5vw,54px);padding-bottom:clamp(26px,4vw,44px);
 }
-.stat{background:var(--card);padding:15px 20px;flex:1 1 130px}
-.stat .v{font-size:24px;font-weight:700;line-height:1.1}
-.stat .k{color:var(--subtle);font-size:12.5px;margin-top:3px}
+.masthead h1{font-size:clamp(30px,5vw,52px);line-height:1.06;margin:0;font-weight:700;max-width:17ch}
+.masthead p{color:var(--subtle);max-width:52ch;font-size:16.5px;margin:6px 0 0}
+
+/* ---------- the metrics band ---------- */
+
+/* Counts read off the engine at the time of writing. Metrics as content:
+   the same treatment index.html gives its figures. */
+.metrics{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+}
+.metric{padding:16px 16px 18px 0;border-right:1px solid var(--rail)}
+.metric:last-child{border-right:0}
+.metric .v{font-size:clamp(32px,4.6vw,50px);line-height:1;font-weight:700;letter-spacing:-.05em}
+.metric .k{color:var(--subtle);margin-top:9px;display:block;max-width:22ch}
 
 /* ---------- entries ---------- */
 
-.log{padding-bottom:clamp(40px,7vw,70px)}
+.log{padding-top:clamp(24px,4vw,40px);padding-bottom:clamp(40px,7vw,70px)}
+
 .entry{
-  position:relative;padding:0 0 40px 26px;
-  border-left:2px solid var(--rail);
+  display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr);
+  gap:clamp(16px,3vw,38px);
+  padding:clamp(24px,3.6vw,38px) 0;
+  border-bottom:1px solid var(--rail);
 }
-.entry:last-child{border-left-color:transparent}
-.entry::before{
-  content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;
-  border-radius:50%;background:var(--accent);
-  border:3px solid var(--paper);box-sizing:content-box;
+.entry:last-child{border-bottom:0}
+
+.entry .when{position:sticky;top:74px;align-self:start}
+.entry .ver{
+  display:block;font-size:clamp(24px,2.8vw,36px);line-height:1;
+  font-weight:700;letter-spacing:-.045em;color:var(--accent-deep);
 }
-.entry.quiet::before{background:var(--rail)}
-.entry .when{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.ver{
-  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-  font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;
-  background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent-deep);
+/* Named phases are labels, not releases, so they are set as labels. */
+.entry .ver.word{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
 }
-.date{color:var(--subtle);font-size:13px;letter-spacing:.02em}
-.entry h2{font-size:clamp(21px,3.2vw,27px);line-height:1.2;margin:11px 0 0;font-weight:700}
+.entry .date{display:block;color:var(--subtle);margin-top:9px}
+
+.entry h2{font-size:clamp(21px,3vw,30px);line-height:1.16;margin:0;font-weight:700;max-width:24ch}
 .entry .body{color:var(--subtle);font-size:16px;max-width:64ch}
 .entry .body p{margin:14px 0 0}
 .entry .body strong{color:var(--ink);font-weight:620}
 
-.notes{list-style:none;margin:18px 0 0;padding:0}
+.notes{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--rail)}
 .notes li{
-  background:var(--card);border:1px solid var(--rail);border-radius:14px;
-  padding:14px 16px;margin-bottom:9px;font-size:15px;line-height:1.5;
-  color:var(--subtle);box-shadow:var(--shadow);
+  padding:13px 0;border-bottom:1px solid var(--rail);
+  font-size:15px;line-height:1.5;color:var(--subtle);max-width:66ch;
 }
 .notes li b{color:var(--ink);font-weight:640}
 
 .quote{
-  margin:18px 0 0;padding:14px 18px;border-left:3px solid var(--accent);
-  background:color-mix(in srgb,var(--accent) 7%,transparent);
-  border-radius:0 12px 12px 0;font-size:16px;line-height:1.5;
+  margin:18px 0 0;padding:12px 0 12px 16px;border-left:2px solid var(--accent);
+  font-size:16px;line-height:1.5;max-width:60ch;
 }
-.quote .who{display:block;margin-top:7px;font-size:12.5px;color:var(--subtle)}
+.quote .who{display:block;margin-top:7px;color:var(--subtle);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase}
 
+/* Verdict labels keep the verifier's colours and appear nowhere else. */
 .tag{
-  display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
-  letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;
+  display:inline-flex;align-items:center;gap:6px;margin-right:6px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
 }
-.tag.ok{background:color-mix(in srgb,var(--verified) 15%,transparent);color:var(--verified)}
-.tag.bad{background:color-mix(in srgb,var(--contradicted) 15%,transparent);color:var(--contradicted)}
+.tag::before{content:"";width:8px;height:8px;flex:none;background:currentColor}
+.tag.ok{color:var(--verified)}
+.tag.bad{color:var(--contradicted)}
 
-footer{border-top:1px solid var(--rail);padding:30px 0 44px;color:var(--subtle);font-size:14px}
-footer .wrap{max-width:1060px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-footer a{color:var(--subtle)}
+footer{border-top:1px solid var(--ink);padding:22px 0 40px;color:var(--subtle)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+footer a{color:var(--subtle);text-decoration:none}
+footer a:hover,footer a:focus-visible{color:var(--ink)}
 footer .right{margin-left:auto;display:flex;gap:18px}
 
+:focus-visible{outline:2px solid var(--accent-deep);outline-offset:2px}
+
+@media (max-width:820px){
+  .masthead{grid-template-columns:minmax(0,1fr)}
+  .metric{border-right:0;border-bottom:1px solid var(--rail);padding-right:0}
+  .metric:last-child{border-bottom:0}
+  .entry{grid-template-columns:minmax(0,1fr);gap:14px}
+  .entry .when{position:static;display:flex;align-items:baseline;gap:12px}
+  .entry .date{margin-top:0}
+}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
@@ -149,14 +219,14 @@ footer .right{margin-left:auto;display:flex;gap:18px}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="./">
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true">
         <rect width="32" height="32" rx="7" fill="currentColor"/>
         <path d="M9 25 Q9 13 16 13 Q23 13 23 7" stroke="#E89E2E" stroke-width="3.2" fill="none" stroke-linecap="round"/>
         <circle cx="9" cy="25" r="2.6" fill="#E89E2E"/>
       </svg>
       LANEWAY
     </a>
-    <nav>
+    <nav class="mono">
       <a href="./">Overview</a>
       <a href="devlog.html" aria-current="page">Dev log</a>
     </nav>
@@ -165,221 +235,498 @@ footer .right{margin-left:auto;display:flex;gap:18px}
 
 <main>
 
+<div class="wrap plate">
+  <div class="plate-meta mono">
+    <span>Specimen sheet, engineering log</span>
+    <span>Newest entry first</span>
+  </div>
+
+  <div class="guides" aria-hidden="true">
+    <i class="g-cap"></i><b class="g-cap">Cap height</b>
+    <i class="g-x"></i><b class="g-x">x-height</b>
+    <i class="solid g-base"></i><b class="g-base">Baseline</b>
+  </div>
+
+  <div class="wordmark" aria-hidden="true">Dev log</div>
+</div>
+
+<div class="wrap">
+  <div class="plate-foot mono">
+    <span>Figures set in tabular numerals, so versions and counts line up down the page</span>
+    <span class="num">Weight 800 / tracking -0.055em</span>
+  </div>
+</div>
+
 <div class="wrap masthead">
-  <p class="mono" style="color:var(--accent-deep)">Engineering log</p>
   <h1 class="serif">What got built, what broke, and what was decided.</h1>
   <p>
     Not just the wins. A dead end that cost two hours is worth more than a
     feature that worked first try. Newest entry first.
   </p>
-  <div class="stats">
-    <div class="stat"><div class="v">6 days</div><div class="k">from empty repo to navigation</div></div>
-    <div class="stat"><div class="v">0.7.0</div><div class="k">current build</div></div>
-    <div class="stat"><div class="v">133</div><div class="k">tests, all offline</div></div>
-    <div class="stat"><div class="v">5</div><div class="k">official transit feeds</div></div>
+</div>
+
+<div class="wrap">
+  <div class="metrics">
+    <div class="metric">
+      <span class="v num">6</span>
+      <span class="k mono">Days from empty repo to navigation</span>
+    </div>
+    <div class="metric">
+      <span class="v num">0.19.0</span>
+      <span class="k mono">Current build</span>
+    </div>
+    <div class="metric">
+      <span class="v num">137</span>
+      <span class="k mono">Tests, all offline</span>
+    </div>
+    <div class="metric">
+      <span class="v num">5</span>
+      <span class="k mono">Official transit feeds</span>
+    </div>
   </div>
 </div>
 
 <div class="wrap log">
 
   <article class="entry">
-    <div class="when"><span class="ver">0.7.0</span><span class="date">Wednesday Aug 12</span></div>
-    <h2 class="serif">Live buses on the map, and a footpath regression that hid itself</h2>
-    <div class="body">
-      <p>
-        Real vehicles now move on the map where the operator publishes a realtime
-        feed. The more useful entry, though, is the bug underneath it.
-      </p>
+    <div class="when">
+      <span class="ver num">0.18.1 / 0.19.0</span>
+      <span class="date mono">Monday Aug 17</span>
     </div>
-    <ul class="notes">
-      <li><b>The footpath regression.</b> Walking routes had quietly stopped using
-        real paths. The engine was serving correct data for the exact queries the
-        phone was making, so the failure was transient throttling on the public
-        OpenStreetMap query service, silently downgrading walks to a generic
-        around-the-block route. Fixed by trying a second public mirror before
-        giving up, and by logging the fallback so it can never be invisible again.</li>
-      <li><b>Live vehicle positions.</b> GTFS-Realtime over protobuf, held in
-        memory fifteen seconds so polling phones share one fetch, with a stale
-        snapshot served rather than nothing on a failed refresh. First live probe
-        returned 332 real buses. On the phone: amber dots, filtered to the visible
-        region, capped at sixty, polled only while a plan with a transit leg is on
-        screen.</li>
-      <li><b>The lock screen got a proper design pass</b>, and "big arrow guidance"
-        became "Compass view", because a mode name should say what you see.</li>
-    </ul>
+    <div>
+      <h2 class="serif">A plan took five minutes, and the reason was invisible twice over</h2>
+      <div class="body">
+        <p>
+          The product principle says under thirty seconds, with visible progress,
+          because beyond that people assume it hung. A real trip took about five
+          minutes, and the first report was not "this is slow" but "walking routing
+          is broken". The principle predicted its own symptom.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Both OpenStreetMap query mirrors were down at once</b>, one returning
+          gateway timeouts and the other timing out on read. That alone is bad luck.
+          What made it five minutes was the code around it: each mirror was given a
+          twenty five second budget, so one tile could burn fifty seconds, and a
+          failure was recorded nowhere, so every walking leg in the plan paid the
+          full fifty seconds over again. Now the per-mirror budget is eight seconds,
+          and a failed area is marked cold for three minutes so the rest of the plan
+          falls back immediately. Worst case went from fifty seconds per leg to about
+          sixteen seconds once.</li>
+        <li><b>Switching to driving kept the walking path.</b> The line itself was
+          never wrong: a leg that cannot be re-routed keeps its old geometry and its
+          old symbol, because drawing a driving route the router never returned would
+          be worse. The bug was that this outcome was counted nowhere, so the summary
+          line never mentioned it. The app showed a walking path under a driving
+          selection and said nothing, which is the one rule broken on the screen where
+          being right matters most.</li>
+        <li><b>The routing errors were being thrown away.</b> Apple's directions API
+          was called with the error discarded, so every driving re-route failure in
+          this app's history produced no diagnostic at all. It now reports what
+          actually happened, separates a thrown error from an empty result, backs off
+          between retries rather than firing straight back into a rate limit, and
+          shows the last twelve failures on a screen inside the app. Reading device
+          logs needs a cable and a Mac; the person hitting the bug is holding a phone.</li>
+        <li><b>Still open.</b> Whether the driving failure was rate limiting or
+          something else is a theory until the next occurrence is read off that screen.
+          The issue stays open rather than being closed on a fix to the reporting.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">0.6.0 / 0.6.1</span><span class="date">Wednesday Aug 12</span></div>
-    <h2 class="serif">The wait shows its work, and the anchor case is a journey again</h2>
-    <div class="body">
-      <p>
-        An interface review with one blunt verdict: it gets the job done, but it
-        does not go the extra mile that justifies the AI built into it. Buttons are
-        now sized to their importance, and the planning wait tells you what it is
-        currently verifying instead of spinning.
-      </p>
+    <div class="when">
+      <span class="ver num">0.17.0 / 0.18.0</span>
+      <span class="date mono">Monday Aug 17</span>
     </div>
-    <ul class="notes">
-      <li><b>The most important fix was a correctness one.</b> Switching travel
-        modes was redrawing already-verified transit legs as driving lines. That is
-        exactly the fabricated-fact failure this project exists to prevent: the
-        screen would have shown a route no source supports. Mode switching now
-        refuses to invent drives.</li>
-      <li><b>The anchor case had quietly broken</b> and was coming back as a single
-        leg instead of a journey. Caught, fixed, and now covered.</li>
-    </ul>
+    <div>
+      <h2 class="serif">Recents, and three things to do that the app can actually back up</h2>
+      <div class="body">
+        <p>
+          Both big mapping apps lay their search surface out the same way: saved
+          places first, then recent destinations, then suggestions as you type.
+          Laneway had the first and the third and nothing in the middle, so every
+          repeat trip was retyped from nothing.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Recent destinations</b>, eight of them, newest first, one tap to plan
+          again. Only destinations from plans that actually landed are kept. Recent
+          <i>searches</i> are deliberately not stored: seeding the fastest path in the
+          app with things that failed to plan would make the quickest route to a trip
+          also the least reliable one.</li>
+        <li><b>Something to do near you</b>, three real places and a shuffle. The
+          request was for three cool things, and cool is the one word this app cannot
+          honour. Nothing available ranks places by how good an evening out they are,
+          and a model asked to invent three fun spots produces plausible names, which
+          is the exact failure the whole project exists to prevent. So the cards state
+          what can be backed up: a real place, its category, and how far away it is.
+          No ratings, no "open now" badge, no claim that any of it is good.</li>
+        <li><b>The shuffle is honest for the same reason.</b> It is a re-roll over
+          real nearby places rather than a ranking pretending to be taste, which is
+          arguably what a shuffle should be anyway. The results are pooled once and
+          shuffled on the device, so a re-roll costs nothing.</li>
+        <li>This is the one feature that works while the phone cannot reach the
+          engine, because finding places nearby is done entirely on the device.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">0.3.0 to 0.5.2</span><span class="date">Tuesday Aug 11</span></div>
-    <h2 class="serif">Walking on real paths, and a lock screen worth glancing at</h2>
-    <div class="body">
-      <p>
-        Apple's walking directions route you around the block. Real pedestrians cut
-        through the park. Walking legs now run on OpenStreetMap footpaths, drawn as
-        footstep dots, with smoothing that rounds gentle bends and keeps real
-        corners sharp.
-      </p>
+    <div class="when">
+      <span class="ver num">0.14.0 to 0.16.0</span>
+      <span class="date mono">Monday Aug 17</span>
     </div>
-    <ul class="notes">
-      <li><b>Trip times became honest.</b> If the app cannot stand behind a
-        duration, it does not print one.</li>
-      <li><b>A maneuver-arrow Live Activity</b> so the next turn is readable
-        without unlocking the phone.</li>
-      <li><b>A correction worth recording:</b> the first cut of the walking finder
-        opened itself automatically. A full screen takeover that happens to the
-        traveller solves discovery by removing consent. It is now something you
-        choose.</li>
-    </ul>
+    <div>
+      <h2 class="serif">A debug screen, and the two questions it answered immediately</h2>
+      <div class="body">
+        <p>
+          Two problems had been invisible from the interface: a stale server address
+          that every screen reported as connected, and a stored home address written
+          on first run since version 0.9.0 that nothing had ever read back. Both are
+          obvious the moment the raw state is on a screen, and neither was findable
+          before one existed.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>The debug screen shows what the app actually thinks:</b> which server
+          it is using against every server it can see, a direct health check with the
+          raw response, the location fix and its age, a spoken test line, a live
+          microphone level, and every stored preference with its real value.</li>
+        <li><b>It earned itself on the first read.</b> The mode preferences collected
+          during onboarding are written and never read by anything. The app asks which
+          ways you travel, stores the answer, and plans every trip as though it never
+          asked. That is now flagged in red on that screen, and filed rather than
+          quietly fixed, because deciding whether to use it or stop asking is a
+          product decision.</li>
+        <li><b>Onboarding could only ever be seen once.</b> The flag that marks it
+          complete was written and never cleared, so the intro screens were a one time
+          event that not even reinstalling brought back. There is now a way back in
+          that erases nothing.</li>
+        <li><b>Setting a home address only offered "use current location"</b>, which
+          is no use to anyone not standing at home while they set it up. It now takes
+          a typed address with real suggestions. A contacts picker was built first and
+          then removed: it existed only because the platform will not tell an app
+          which contact card belongs to its user, so it asked people to pick their own
+          house out of a list of everyone they know. Autocomplete answers the same
+          need without the privacy surface.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">Direction</span><span class="date">Tuesday Aug 11</span></div>
-    <h2 class="serif">The real vision: a maps alternative, not a planning tool</h2>
-    <div class="quote">
-      "It IS supposed to be turn by turn, an alternative to Apple and Google Maps."
-      <span class="who">Owner decision, Tuesday Aug 11</span>
+    <div class="when">
+      <span class="ver num">0.11.0 to 0.13.0</span>
+      <span class="date mono">Sunday Aug 16</span>
     </div>
-    <div class="body">
-      <p>
-        Scope rewritten the same hour. Planning and verification stay the
-        foundation and the moat, because verified routes are what make this an
-        alternative rather than a clone; navigation is the surface people actually
-        live in. Voice guidance stays out for now.
-      </p>
+    <div>
+      <h2 class="serif">Voice becomes a conversation, and the map gets a choice of ground</h2>
+      <div class="body">
+        <p>
+          Version 0.10.0 had put a microphone on the home bar that opened the
+          composer already listening. That is a dictation box wearing an assistant's
+          clothes: you still read a sheet and tap a button.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Voice mode is now a full screen conversation.</b> It listens, plans,
+          answers out loud, and listens again. It waits for its own sentence to finish
+          before reopening the microphone, because otherwise it hears itself and
+          answers its own question, and a tap interrupts mid-sentence the way a person
+          interrupts a person. The orb reacts to real microphone loudness rather than
+          animating on a timer and hoping.</li>
+        <li><b>Typing stayed the default.</b> Voice mode is the only place a plan is
+          spent without a tap, which reverses an earlier deliberate decision, so it is
+          guarded three ways: entering the mode is deliberate, a take under two words
+          restarts the microphone instead of planning, and the take is shown on screen
+          as it is sent. A plan is never spent invisibly.</li>
+        <li><b>Standard, satellite and hybrid basemaps.</b> Not the free change it
+          looked like: the route lines are thin and unoutlined, which reads fine on a
+          flat basemap and vanishes over a parking lot or a treeline in aerial
+          photography. Each leg now draws a dark casing underneath it on imagery,
+          solid even where the leg is dotted. The casing is deliberately colourless,
+          because green and amber already mean verified and unverified and a second
+          stroke does not get to dilute that.</li>
+        <li><b>Home and Work</b>, as one tap trips. The stored home address finally
+          does something, five versions after it started being collected.</li>
+      </ul>
     </div>
-    <ul class="notes">
-      <li><b>Navigation phase one shipped that day.</b> Follow mode with a tight
-        camera, per-maneuver instructions on road legs, automatic leg advance with
-        a haptic, sustained off-route detection, and an off-route banner whose tap
-        replans to the same destination from wherever you now are. All the geometry
-        is deterministic and runs on the device.</li>
-    </ul>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">Engine</span><span class="date">Monday Aug 10</span></div>
-    <h2 class="serif">A spinner that lies, and roads that are actually roads</h2>
-    <ul class="notes">
-      <li><b>The wait became truthful.</b> Planning runs as a job the app polls, so
-        the card shows the real state: "Verified 3 of 6: MiWay route 7 serves stops
-        on Airport Road."</li>
-      <li><b>Walk, taxi, drive and shuttle legs</b> now draw true routed lines.
-        Transit legs stay schematic and dashed on purpose: a bus's real path is the
-        operator's published data, not ours to invent. That honest gap is filed as
-        an issue, not papered over.</li>
-      <li><b>The black screen.</b> The app rendered nothing on a real iPhone while
-        the process stayed alive. The stock SwiftUI map view was hanging on that
-        device and iOS combination; replacing it with the older UIKit map view
-        fixed it outright. Two hours, and the kind of thing no simulator would have
-        shown.</li>
-    </ul>
+    <div class="when">
+      <span class="ver num">0.8.0 to 0.10.0</span>
+      <span class="date mono">Thursday Aug 13</span>
+    </div>
+    <div>
+      <h2 class="serif">Bikes on the pathway network, and a first run worth having</h2>
+      <div class="body">
+        <p>
+          The walking router already knew every footpath in an area. Riding one is
+          the same graph at a different speed, with one real exception.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Bike and e-bike.</b> The router grew speed profiles, and bikes skip
+          staircases, because a cyclist cannot ride a flight of steps. The test pins
+          the physics rather than the output: walkers take the stairs shortcut, bikes
+          detour around it, and the e-bike takes the same detour faster. Apple has no
+          cycling profile at all, so fallback geometry is re-timed at riding speed
+          rather than presented as a walk.</li>
+        <li><b>First run onboarding</b>, five screens: what the app is, the promise
+          about verified against unverified, the ways you travel, the location ask
+          with its reason stated before the system asks, and the lock screen option
+          shown rather than described.</li>
+        <li><b>Speaking a trip.</b> Live transcripts stream in as you talk and 1.8
+          seconds of silence ends the take. The microphone runs only while something
+          on screen says it is running.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">Rebuild</span><span class="date">Sunday Aug 9</span></div>
-    <h2 class="serif">Map first, and the first fully verified leg</h2>
-    <ul class="notes">
-      <li><b>The app was rebuilt around the map</b> rather than around a form:
-        full-bleed map, a search capsule, numbered pins, and the plan in a
-        drag-up sheet. Pins come from two-pass geocoding, and a stop that cannot be
-        placed confidently gets no pin at all rather than a wrong one. Plain
-        geocoding had been putting "YYZ Terminal 1" in Rhode Island.</li>
-      <li><span class="tag ok">First verified leg</span> On the anchor case, live:
-        a MiWay bus leg with both of its claims supported by the official feed.</li>
-      <li><b>Saved plans went offline</b>, with the full response and its resolved
-        map geometry stored on the device.</li>
-    </ul>
+    <div class="when">
+      <span class="ver num">0.7.0</span>
+      <span class="date mono">Wednesday Aug 12</span>
+    </div>
+    <div>
+      <h2 class="serif">Live buses on the map, and a footpath regression that hid itself</h2>
+      <div class="body">
+        <p>
+          Real vehicles now move on the map where the operator publishes a realtime
+          feed. The more useful entry, though, is the bug underneath it.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>The footpath regression.</b> Walking routes had quietly stopped using
+          real paths. The engine was serving correct data for the exact queries the
+          phone was making, so the failure was transient throttling on the public
+          OpenStreetMap query service, silently downgrading walks to a generic
+          around-the-block route. Fixed by trying a second public mirror before
+          giving up, and by logging the fallback so it can never be invisible again.</li>
+        <li><b>Live vehicle positions.</b> GTFS-Realtime over protobuf, held in
+          memory fifteen seconds so polling phones share one fetch, with a stale
+          snapshot served rather than nothing on a failed refresh. First live probe
+          returned 332 real buses. On the phone: amber dots, filtered to the visible
+          region, capped at sixty, polled only while a plan with a transit leg is on
+          screen.</li>
+        <li><b>The lock screen got a proper design pass</b>, and "big arrow guidance"
+          became "Compass view", because a mode name should say what you see.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">Feeds</span><span class="date">Saturday Aug 8</span></div>
-    <h2 class="serif">Official feeds before the open web, and the first supported claim</h2>
-    <div class="body">
-      <p>
-        Transit claims are now checked against operators' own published schedule
-        data before anything on the web is trusted. This produced both of the
-        results the project was built to produce, on the same afternoon.
-      </p>
+    <div class="when">
+      <span class="ver num">0.6.0 / 0.6.1</span>
+      <span class="date mono">Wednesday Aug 12</span>
     </div>
-    <ul class="notes">
-      <li><span class="tag ok">Supported</span> "MiWay route 7 serves stops on
-        Airport Road", grounded in the official feed, which lists a stop at 6445
-        Airport Rd.</li>
-      <li><span class="tag bad">Contradicted</span> The same feed proved route 7
-        does <b>not</b> enter Pearson Terminal 1, correctly killing a claim the
-        planner had reached for. The verifier catching the planner is the system
-        working, not the system failing.</li>
-      <li><b>Challenge pages are now treated as unreachable</b>, never as documents,
-        so a bot-check page can never be cached and cited as evidence.</li>
-      <li><b>The engine became a background service</b> nobody has to start by
-        hand.</li>
-    </ul>
+    <div>
+      <h2 class="serif">The wait shows its work, and the anchor case is a journey again</h2>
+      <div class="body">
+        <p>
+          An interface review with one blunt verdict: it gets the job done, but it
+          does not go the extra mile that justifies the AI built into it. Buttons are
+          now sized to their importance, and the planning wait tells you what it is
+          currently verifying instead of spinning.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>The most important fix was a correctness one.</b> Switching travel
+          modes was redrawing already-verified transit legs as driving lines. That is
+          exactly the fabricated-fact failure this project exists to prevent: the
+          screen would have shown a route no source supports. Mode switching now
+          refuses to invent drives.</li>
+        <li><b>The anchor case had quietly broken</b> and was coming back as a single
+          leg instead of a journey. Caught, fixed, and now covered.</li>
+      </ul>
+    </div>
   </article>
 
   <article class="entry">
-    <div class="when"><span class="ver">First build</span><span class="date">Friday Aug 7 to Saturday Aug 8</span></div>
-    <h2 class="serif">Verifier before retriever, and a phone that finds its own engine</h2>
-    <div class="body">
-      <p>
-        The build order was deliberate and slightly backwards: the verifier was
-        written third, before the thing that fetches anything, because the
-        impressive part of this product is the reasoning and the valuable part is
-        the verification.
-      </p>
+    <div class="when">
+      <span class="ver num">0.3.0 to 0.5.2</span>
+      <span class="date mono">Tuesday Aug 11</span>
     </div>
-    <ul class="notes">
-      <li><b>Provenance is enforced by the type system.</b> A fact without a source
-        URL and a fetch timestamp cannot be constructed at all, so it cannot be
-        forgotten in review.</li>
-      <li><b>The verifier can return "unsupported"</b> and was never allowed to
-        collapse into a yes or no. It cites verbatim spans from sources it was
-        handed, and it fails closed.</li>
-      <li><b>First real-world lesson, immediately:</b> the airport's own website
-        blocks the crawler and the obvious mapping source disallows it in
-        robots.txt. So the legs came back honestly unverified. That is the correct
-        behaviour and it set the agenda for the next week: go to the operators'
-        published feeds.</li>
-      <li><b>The phone finds the engine by itself</b> over local network discovery,
-        with a free demo plan so the interface can be worked on without spending a
-        cent.</li>
-    </ul>
+    <div>
+      <h2 class="serif">Walking on real paths, and a lock screen worth glancing at</h2>
+      <div class="body">
+        <p>
+          Apple's walking directions route you around the block. Real pedestrians cut
+          through the park. Walking legs now run on OpenStreetMap footpaths, drawn as
+          footstep dots, with smoothing that rounds gentle bends and keeps real
+          corners sharp.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Trip times became honest.</b> If the app cannot stand behind a
+          duration, it does not print one.</li>
+        <li><b>A maneuver-arrow Live Activity</b> so the next turn is readable
+          without unlocking the phone.</li>
+        <li><b>A correction worth recording:</b> the first cut of the walking finder
+          opened itself automatically. A full screen takeover that happens to the
+          traveller solves discovery by removing consent. It is now something you
+          choose.</li>
+      </ul>
+    </div>
   </article>
 
-  <article class="entry quiet">
-    <div class="when"><span class="ver">Day zero</span><span class="date">Friday Aug 7</span></div>
-    <h2 class="serif">One rule, written before any code</h2>
-    <div class="quote">
-      Never present a fact the system cannot back up. One fabricated shuttle stop
-      destroys trust permanently.
-      <span class="who">From the project's working context, written first</span>
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">Direction</span>
+      <span class="date mono">Tuesday Aug 11</span>
     </div>
-    <div class="body">
-      <p>
-        Everything since has been an argument with that sentence, and the sentence
-        has won every time.
-      </p>
+    <div>
+      <h2 class="serif">The real vision: a maps alternative, not a planning tool</h2>
+      <div class="quote">
+        "It IS supposed to be turn by turn, an alternative to Apple and Google Maps."
+        <span class="who">Owner decision, Tuesday Aug 11</span>
+      </div>
+      <div class="body">
+        <p>
+          Scope rewritten the same hour. Planning and verification stay the
+          foundation and the moat, because verified routes are what make this an
+          alternative rather than a clone; navigation is the surface people actually
+          live in. Voice guidance stays out for now.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Navigation phase one shipped that day.</b> Follow mode with a tight
+          camera, per-maneuver instructions on road legs, automatic leg advance with
+          a haptic, sustained off-route detection, and an off-route banner whose tap
+          replans to the same destination from wherever you now are. All the geometry
+          is deterministic and runs on the device.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">Engine</span>
+      <span class="date mono">Monday Aug 10</span>
+    </div>
+    <div>
+      <h2 class="serif">A spinner that lies, and roads that are actually roads</h2>
+      <ul class="notes">
+        <li><b>The wait became truthful.</b> Planning runs as a job the app polls, so
+          the card shows the real state: "Verified 3 of 6: MiWay route 7 serves stops
+          on Airport Road."</li>
+        <li><b>Walk, taxi, drive and shuttle legs</b> now draw true routed lines.
+          Transit legs stay schematic and dashed on purpose: a bus's real path is the
+          operator's published data, not ours to invent. That honest gap is filed as
+          an issue, not papered over.</li>
+        <li><b>The black screen.</b> The app rendered nothing on a real iPhone while
+          the process stayed alive. The stock SwiftUI map view was hanging on that
+          device and iOS combination; replacing it with the older UIKit map view
+          fixed it outright. Two hours, and the kind of thing no simulator would have
+          shown.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">Rebuild</span>
+      <span class="date mono">Sunday Aug 9</span>
+    </div>
+    <div>
+      <h2 class="serif">Map first, and the first fully verified leg</h2>
+      <ul class="notes">
+        <li><b>The app was rebuilt around the map</b> rather than around a form:
+          full-bleed map, a search capsule, numbered pins, and the plan in a
+          drag-up sheet. Pins come from two-pass geocoding, and a stop that cannot be
+          placed confidently gets no pin at all rather than a wrong one. Plain
+          geocoding had been putting "YYZ Terminal 1" in Rhode Island.</li>
+        <li><span class="tag ok">First verified leg</span> On the anchor case, live:
+          a MiWay bus leg with both of its claims supported by the official feed.</li>
+        <li><b>Saved plans went offline</b>, with the full response and its resolved
+          map geometry stored on the device.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">Feeds</span>
+      <span class="date mono">Saturday Aug 8</span>
+    </div>
+    <div>
+      <h2 class="serif">Official feeds before the open web, and the first supported claim</h2>
+      <div class="body">
+        <p>
+          Transit claims are now checked against operators' own published schedule
+          data before anything on the web is trusted. This produced both of the
+          results the project was built to produce, on the same afternoon.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><span class="tag ok">Supported</span> "MiWay route 7 serves stops on
+          Airport Road", grounded in the official feed, which lists a stop at 6445
+          Airport Rd.</li>
+        <li><span class="tag bad">Contradicted</span> The same feed proved route 7
+          does <b>not</b> enter Pearson Terminal 1, correctly killing a claim the
+          planner had reached for. The verifier catching the planner is the system
+          working, not the system failing.</li>
+        <li><b>Challenge pages are now treated as unreachable</b>, never as documents,
+          so a bot-check page can never be cached and cited as evidence.</li>
+        <li><b>The engine became a background service</b> nobody has to start by
+          hand.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">First build</span>
+      <span class="date mono">Friday Aug 7 to Saturday Aug 8</span>
+    </div>
+    <div>
+      <h2 class="serif">Verifier before retriever, and a phone that finds its own engine</h2>
+      <div class="body">
+        <p>
+          The build order was deliberate and slightly backwards: the verifier was
+          written third, before the thing that fetches anything, because the
+          impressive part of this product is the reasoning and the valuable part is
+          the verification.
+        </p>
+      </div>
+      <ul class="notes">
+        <li><b>Provenance is enforced by the type system.</b> A fact without a source
+          URL and a fetch timestamp cannot be constructed at all, so it cannot be
+          forgotten in review.</li>
+        <li><b>The verifier can return "unsupported"</b> and was never allowed to
+          collapse into a yes or no. It cites verbatim spans from sources it was
+          handed, and it fails closed.</li>
+        <li><b>First real-world lesson, immediately:</b> the airport's own website
+          blocks the crawler and the obvious mapping source disallows it in
+          robots.txt. So the legs came back honestly unverified. That is the correct
+          behaviour and it set the agenda for the next week: go to the operators'
+          published feeds.</li>
+        <li><b>The phone finds the engine by itself</b> over local network discovery,
+          with a free demo plan so the interface can be worked on without spending a
+          cent.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="when">
+      <span class="ver word">Day zero</span>
+      <span class="date mono">Friday Aug 7</span>
+    </div>
+    <div>
+      <h2 class="serif">One rule, written before any code</h2>
+      <div class="quote">
+        Never present a fact the system cannot back up. One fabricated shuttle stop
+        destroys trust permanently.
+        <span class="who">From the project's working context, written first</span>
+      </div>
+      <div class="body">
+        <p>
+          Everything since has been an argument with that sentence, and the sentence
+          has won every time.
+        </p>
+      </div>
     </div>
   </article>
 
@@ -388,7 +735,7 @@ footer .right{margin-left:auto;display:flex;gap:18px}
 </main>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap mono">
     <span>Laneway. Built in the open, shipped when it is trustworthy.</span>
     <span class="right">
       <a href="./">Overview</a>

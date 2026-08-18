@@ -1,3 +1,45 @@
+# Five Days of Dev Log Written at Once - Monday Aug 17
+
+*Time worked: about 10m (roughly 5:02 PM to 5:12 PM). Estimated from the first
+file written this session; the end is read off the clock.*
+
+## Timeline
+
+**"are you updating the dev log on the site?"** No, and that was the honest
+answer. The dev log had been sitting at 0.7.0 from Wednesday Aug 12 while the
+product went to 0.19.0, so **twelve versions and five days** of work were
+missing from the public page. Nobody had asked for it in the meantime, which is
+exactly how a public log dies.
+
+Five entries written, newest first, grouped by theme rather than one per patch
+release, since a reader wants the story and not the changelog:
+
+- **0.18.1 / 0.19.0**, the five minute plan and the invisible driving failure.
+- **0.17.0 / 0.18.0**, recents and Something to do, including why "cool" is the
+  one word the app cannot honour.
+- **0.14.0 to 0.16.0**, the debug screen and the two questions it answered on
+  its first read.
+- **0.11.0 to 0.13.0**, voice becoming a conversation, and the basemap casing.
+- **0.8.0 to 0.10.0**, bikes on the pathway network and first-run onboarding.
+
+**Two stale claims fixed, which is the more important half.** This repo's own
+rule says a stale number is a false claim with extra steps, and the page was
+carrying three:
+
+- The metrics block said current build 0.7.0 and 133 tests. Now 0.19.0 and 137.
+- The landing page's "Not there yet" column still said **"No voice guidance
+  yet"**. Voice input, spoken replies, and spoken turn-by-turn all shipped days
+  ago, so the public page was actively wrong about the product. Voice moved to
+  the "Working today" column and the "Not there yet" line now covers booking,
+  payment, and accounts.
+
+**Boundary check, since this repo is public and the product repo is not.**
+Grepped the changed files for local network addresses, the engine port, the
+LaunchAgent name, the wifi network, the device identifier, the Apple team id,
+the owner's email, and the coordinates that appeared in the engine logs during
+the Overpass outage. All clean. The outage entry describes the failure without
+saying where it happened, and no real errand or destination appears anywhere.
+
 # The site exists: landing page and dev log - Wednesday Aug 12
 
 *Time worked: the site work is anchored to the 11:36 AM repo clone and ran to
@@ -120,3 +162,79 @@ at 375px, with no horizontal overflow.
 - Not linked from `barongartner.github.io` yet.
 - When the product launches, the two repos merge or the site moves to a real
   domain, per the owner decision above.
+
+---
+
+# Both pages reset as a type specimen - Wednesday Aug 12
+
+*Time worked: anchored to the 12:36 PM clock check taken once the two sites
+had been read, and ran to 12:55 PM. This session opened on unrelated work
+(a web design aesthetics reference page) and moved to the sites when the
+owner asked for the redesign; that prompt was not separately timestamped,
+so it is left unstated rather than guessed.*
+
+## Timeline
+
+**"Redesign my 2 sites like type specimen."** The two sites are
+`barongartner.github.io` and this one. The reference is the Type Specimen
+plate from the owner's own aesthetics page: an oversized glyph as the hero,
+size ladders, technical annotation in the margins, and metrics treated as
+content.
+
+**Named the problem before starting.** That plate's own failure note says a
+system font stack undercuts the whole conceit, because a specimen exists to
+show off a face. This repo forbids third-party requests, so there are no
+fonts to fetch and no face to sell. The way through was to stop pretending:
+the margins now say the page is set in the two families the reading machine
+already has, its grotesque for metrics and labels, its serif for statements.
+That is true, and it keeps the specimen from claiming something it cannot
+back up.
+
+**Both pages got the same plate.** The wordmark is set past the measure so
+the frame crops the last letter, with cap height, x-height and baseline
+drawn across it and labelled in the margin.
+
+- The guides are positioned by arithmetic, not by eye. For this class of
+  grotesque the cap height is .717em and the x-height .523em, and in a line
+  box of height L the baseline sits .77 - (1 + L)/2 + L above the bottom of
+  the box, which is .15em at the .84 line height used here. Those constants
+  are in the CSS as `--wm` and `--base`, so the guides land on the letters
+  at every viewport width.
+- The wordmark is set mixed case rather than caps on purpose. An all-caps
+  sample has no x-height to demonstrate, so the middle guide would have
+  been labelling a position nothing on the page showed. "Laneway" and
+  "Dev log" both put lowercase under that guide, and both have a descender
+  that crosses the baseline and gets cropped by the frame.
+
+**Everything else went flat.** Rounded cards, pills and drop shadows are the
+opposite of a specimen sheet, so they are gone: hairline rules, square
+corners, no shadows. The palette did not move, and the three verifier
+colours still mean only what they meant.
+
+- Verdict chips are now mono labels preceded by a solid square of the
+  verdict colour, rather than tinted rounded pills.
+- The pipeline stage numbers are set as display figures, greyed except for
+  stage 05, the verifier, which stays amber.
+- `index.html` gained a metrics band: four figures, every one of them read
+  off this same page (four legs in the anchor case, three verdicts, five
+  feeds, six stages). Nothing new is claimed.
+- The dev log's stats became the same band, and each entry now carries its
+  version as a display figure in the margin. Numbered releases get the
+  figure treatment; named phases like "Direction" and "Day zero" are set as
+  mono labels, because they are labels and not releases.
+
+**Checked, not assumed.** Text was diffed word for word against the previous
+version of both pages: zero words removed from `index.html`, and the five
+from `devlog.html` are all capitalisation changes in the stats labels. No
+link changed on either page. The non-ASCII check passes clean, and a
+separate grep confirmed no em dash, en dash, arrow or smart quote entities
+were introduced. Both pages were read in light and dark.
+
+## Open
+
+- Still no screenshots, for the same reason as before: the app has never
+  been captured and mockups would be inventing an interface.
+- The version, test count and feed list in the metrics band still need
+  updating by hand when they change in the product repo. The band makes
+  them more prominent than they were, so a stale number now costs more.
+- Nothing is committed. The working tree holds the redesign for review.
