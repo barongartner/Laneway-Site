@@ -1,3 +1,63 @@
+# Landing page variant A promoted to index - Tuesday Aug 18
+
+*Written 7:56 PM, read off the clock. The start was not recorded, so no
+duration is claimed here.*
+
+## Timeline
+
+**Three landing pages were live at once.** A survey of the published site found
+`A.html` and `B.html` sitting in the repo root alongside `index.html`, all three
+serving a full landing page. Nothing linked to either variant, but GitHub Pages
+serves every file in the branch, so both were publicly reachable and indexable
+at their own URLs. They had been left behind as drafts.
+
+**The three were compared.** All three carry the same copy and the same five
+sections, so the comparison came down to the hero and the palette. `index.html`
+was the type specimen: an oversized "Laneway" set against cap height and
+baseline guides, dark. `A.html` was paper, with the headline kept as a full
+sentence and the anchor case rendered beside it as a vertical ticket. `B.html`
+was dark, with the headline compressed to all capitals across the full width and
+the legs laid out as a horizontal strip of four tiles.
+
+**A was picked.** Three reasons, in order of weight. The headline keeps "Your
+map says it is a two hour walk", which names who is wrong; B drops that clause
+and the sentence loses its antagonist. The ticket gives the unverified leg a
+full row with its caveat intact, "roughly every 20 min, no published timetable",
+where B truncates it to a tile and the admission gets compressed into a chip.
+And the paper treatment reads as a document rather than a poster, which is the
+tone the one rule asks for: a page that argues for sourced facts should not
+shout louder than its own claim.
+
+**B also had a layout fault.** Its leg strip is set as
+`repeat(auto-fit, minmax(230px, 1fr))`, so below roughly 1030px of viewport the
+fourth leg wraps onto its own row and leaves two empty cells inside the hero. It
+is clean at 1280px and above. This was not the deciding reason but it was not
+nothing.
+
+## Changed
+
+- `A.html` renamed to `index.html`, replacing the type specimen version.
+- `B.html` deleted.
+- `devlog.html`, `CLAUDE.md`, `README.md` untouched.
+- The repo is back to the two pages `CLAUDE.md` says it has.
+
+**Checked, not assumed.** No file in the repo referenced `A.html` or `B.html`,
+so the deletion broke no link. The promoted page already carried the correct
+canonical `og:url` of `https://lanewayapp.github.io/`, because it was written as
+a candidate index rather than as a subpage, so no meta tag needed editing. The
+non-ASCII check passes clean.
+
+## Open
+
+- **The promoted page has no dark mode.** `A.html` was written light only: it
+  contains no `prefers-color-scheme` block at all, while `devlog.html` has
+  three. On a reader whose machine is set to dark, the landing page now stays
+  paper and the dev log goes night, which is a visible break between the only
+  two pages on the site, and it contradicts the rule in `CLAUDE.md` that both
+  pages carry dark mode and are always tested in both. The dark palette from the
+  discarded specimen index cannot be lifted across unchanged, because the class
+  names differ. This needs a dark palette written for the new markup.
+
 # Moved to its own subdomain: lanewayapp.github.io - Tuesday Aug 18
 
 *Ended 4:58 PM, read off the clock. The start was not recorded, so no duration
