@@ -1,3 +1,74 @@
+# The Page Reads the Markdown Itself - Wednesday Aug 19
+
+*Written 11:47 AM, read off the clock. Replaces the approach committed about
+ten minutes earlier in the same session.*
+
+## Timeline
+
+**The generator was the wrong answer to the question asked.** The entry above
+this one built `tools/build_devlog.py` and a CI job to render `devlog.md` into
+`devlog.html`. That kept the page static, but it meant either running a command
+before every commit or granting the CI token write access to the repo. The
+owner wanted neither: "i dont want to write a command, whenever i commit, its
+updated to the repo, but when i open the website it fetches the md".
+
+**So the page reads the file directly.** `devlog.html` now carries a parser at
+the bottom of the file, fetches `devlog.md` on load, and builds the metrics
+band and the entries from it. Writing an entry is editing markdown and
+committing it. Nothing else runs, by anyone, at any point.
+
+**The parser is the same subset, ported.** Version and date, headline, optional
+pull quote with an optional attribution line, paragraphs, notes, `**bold**` and
+`*italic*`, and the `[ok]` and `[bad]` verdict tags. Escaping happens before the
+marks are applied, so an angle bracket in the prose can never become markup and
+a malformed entry renders as visible literal text rather than broken HTML.
+
+**Rendering parity was checked against the page as it stood before any of
+this.** Every count matches: four metrics, fourteen entries, two pull quotes,
+forty two notes, three verdict tags, thirty nine bold runs, one italic. Version
+treatment still splits correctly, `0.18.1 / 0.19.0` as a display figure and
+`Day zero` as a mono label. Read back through the DOM rather than by eye.
+
+**One difference was found and chased down rather than waved off.** Extracted
+text is 115 characters shorter than before, because the renderer concatenates
+adjacent elements with no whitespace between them where the handwritten HTML
+had newlines. Every instance is at a boundary where the whitespace never
+rendered: `.who` is `display: block`, the metric label `.k` is `display:
+block`, and the verdict tag already emits a trailing space. Confirmed by
+reading the computed styles, not assumed.
+
+## Changed
+
+- `devlog.html`: the entries and metrics regions are now empty containers,
+  `#log` and `#metrics`, filled at load. The generator's marker comments are
+  gone. One `<script>` at the end of the file, about 170 lines. A `.fallback`
+  style for the two cases where the log cannot load.
+- `tools/build_devlog.py` and `.github/workflows/devlog.yml` deleted. Both
+  existed for about ten minutes and are in the history if the approach is ever
+  reversed.
+- `CLAUDE.md`: the no build step rule is restored as an absolute, with the
+  owner decision and its date recorded, and the cost of this approach written
+  down beside it rather than left to be rediscovered.
+- `README.md`: says to edit `devlog.md` and commit, and that the page must be
+  served over http to render locally.
+
+## Open
+
+- **`devlog.html` no longer opens from disk.** A `fetch` from a `file://`
+  origin is blocked, so opening it in Finder shows the chrome, the masthead and
+  a line pointing at `devlog.md`. `index.html` is unaffected and still opens
+  straight off disk. Recorded in `CLAUDE.md` as an accepted cost, not a bug to
+  file.
+- **The entries are no longer in the HTML source.** Anything that does not run
+  JavaScript sees an empty log: crawlers that do not execute scripts, link
+  unfurls, and readers with scripting off. A `<noscript>` block points at the
+  markdown, which reads fine on its own. This is the same tradeoff as above and
+  was accepted with it.
+- The repository's default workflow permission was left at read. Nothing needs
+  it now that CI is gone.
+- Still carried over and untouched: no dark mode on the landing page, and
+  in-page anchors landing under the sticky header on both pages.
+
 # The Dev Log Becomes Markdown, and the Page Is Generated From It - Wednesday Aug 19
 
 *Written 11:35 AM, read off the clock. The start was not recorded, so no

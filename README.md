@@ -9,8 +9,7 @@ Live at <https://lanewayapp.github.io/>.
 
 - `index.html` - the landing page
 - `devlog.md` - the engineering log, newest entry first. **Edit this one.**
-- `devlog.html` - generated from `devlog.md`, committed complete. Do not hand edit.
-- `tools/build_devlog.py` - the generator, standard library only
+- `devlog.html` - the page that reads `devlog.md` and renders it. Chrome only.
 - `CLAUDE.md` - working context, read it before touching anything
 - `JOURNAL.md` - session log for this repo
 
@@ -25,21 +24,23 @@ There is no build step. Open `index.html` in a browser, or serve the folder:
 python3 -m http.server 8076
 ```
 
-Both pages are self-contained: styles are inline, there are no fonts to fetch, no
-scripts, and no third-party requests. They render with no network at all.
+Styles are inline, there are no fonts to fetch and no third-party requests of
+any kind. `index.html` has no scripts at all and renders with no network.
+`devlog.html` carries one script, its own markdown renderer, and reads
+`devlog.md` from this same folder.
 
 ## Editing the dev log
 
-Write the entry in `devlog.md`, newest at the top, then:
+Write the entry at the top of `devlog.md` and commit it. That is the whole
+process; there is no build and nothing to run. The page fetches the markdown
+and renders it, so the site is updated as soon as the commit is served.
 
-```bash
-python3 tools/build_devlog.py
-```
+The markdown subset the page understands is documented in `CLAUDE.md`.
 
-That rewrites the entries and the metrics band inside `devlog.html` and leaves
-the rest of the page alone. Pushing `devlog.md` to `main` runs the same script
-in CI and commits the result, so the page updates either way. The markdown
-subset the generator accepts is documented in `CLAUDE.md`.
+One consequence worth knowing: `devlog.html` needs to be served over http to
+render, because browsers block `fetch` from a `file://` page. Opening it from
+Finder shows the chrome and a pointer to the markdown. `python3 -m http.server`
+below is enough to see it properly.
 
 ## Editing
 

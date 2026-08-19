@@ -10,9 +10,10 @@ Two pages, both self-contained:
 - `index.html` - what Laneway is, the anchor case, how verification works, honest status
 - `devlog.html` - what got built, what broke, what was decided. Newest entry first.
 
-The dev log page is generated. `devlog.md` is the source of truth for its
-entries and its metrics band; `tools/build_devlog.py` renders them into
-`devlog.html`. Edit the markdown, never the generated regions of the HTML.
+`devlog.md` is the source of truth for the dev log's entries and its metrics
+band. `devlog.html` reads that file at load time and builds the page from it,
+so an entry is written once, in markdown, and committing the markdown is the
+whole publishing step. Never write entries into the HTML.
 
 The product itself lives in `barongartner/LANEWAY`, which is **private and stays
 private**. This repo is public. Treat the boundary between them as the most
@@ -83,13 +84,22 @@ sys.exit(1 if bad else 0)
 
 ## Technical rules
 
-- **No build step between the repo and the reader.** Someone should be able to
-  open either page in a browser, straight off disk, and see the finished page.
-  No bundler, no framework, no npm, and nothing fetched at runtime to fill the
-  page in. The generated `devlog.html` is committed complete for exactly this
-  reason: `tools/build_devlog.py` runs before the commit, never in the browser.
-  It is standard library Python with no dependencies, and CI runs the same
-  script so the published page cannot drift from `devlog.md`.
+- **No build step, ever.** No bundler, no framework, no npm, nothing to run
+  before a commit. Owner decision, Wednesday Aug 19: writing the dev log means
+  editing `devlog.md` and committing it, with no command in between.
+- **`index.html` still opens straight off disk** and shows the finished page.
+  `devlog.html` no longer does: it fetches `devlog.md`, and a `fetch` from a
+  `file://` origin is blocked by the browser, so opening it from Finder shows
+  the chrome and a line pointing at the markdown. Served over http, from Pages
+  or from `python3 -m http.server`, it renders in full. This is the accepted
+  cost of having no build step; the same choice means the entries are not in
+  the HTML source, so they are invisible to anything that does not run
+  JavaScript.
+- **The renderer is ours.** `devlog.html` carries a small parser at the bottom
+  of the file for the markdown subset the log uses. It is not a markdown
+  library and must never become a fetched one: no CDN, no npm, no third-party
+  request. `devlog.md` is a sibling file on the same origin, which is why
+  fetching it does not break the no-third-party rule.
 - **No third-party requests at runtime.** No CDN, no web fonts, no analytics, no
   embedded video, no form services. The page must render fully offline. This is
   not only privacy hygiene; it is why the page cannot break at load time.
@@ -139,15 +149,18 @@ not a release. The metrics band at the top of the page comes from the
 `# Metrics` section of the same file, so the numbers `CLAUDE.md` warns about
 going stale live beside the entries that would make them stale.
 
-After editing, run:
+There is nothing to run. Commit `devlog.md` and the published page shows the
+new entry as soon as Pages has served the file.
+
+To see a change locally, serve the folder rather than opening the file:
 
 ```bash
-python3 tools/build_devlog.py          # rewrite devlog.html
-python3 tools/build_devlog.py --check  # exit 1 if it is out of date
+python3 -m http.server 8076
 ```
 
-Pushing `devlog.md` to `main` runs the same script in CI and commits the
-result, so the page updates whether or not the script was run by hand.
+Anything the parser does not understand is escaped and shown as literal text
+rather than emitted as markup, so a mistake in the markdown looks wrong on the
+page instead of breaking it.
 
 ## JOURNAL.md
 
