@@ -1,3 +1,70 @@
+# Device forward promoted to index - Tuesday Aug 18
+
+*Written 8:20 PM, read off the clock. Second session entry today; the first
+promoted variant A a little under half an hour earlier.*
+
+## Timeline
+
+**A fourth direction arrived after A had already shipped.**
+`laneway-1e-device-forward.html`, held outside the repo in the downloads folder.
+Same five sections and the same copy below the fold as A, byte for byte on a
+diff of the visible text. The whole difference is the hero and the chrome: a
+gradient paper ground, a backdrop blurred sticky header, pill buttons with a
+warm shadow under the primary, soft shadowed panels, the supported feeds
+surfaced as pills in the hero rather than only in the status section, and an
+iPhone rendered in CSS showing the anchor case as the app would present it.
+
+**It was reviewed against the rules in this file before it went in.** It passes
+the mechanical bar: the non-ASCII check is clean, there are no third-party
+requests at runtime, `prefers-reduced-motion` is handled, and there is no build
+step. The canonical `og:url` was stale, still pointing at
+`barongartner.github.io/laneway-site` from before the move to this subdomain,
+and was corrected to `https://lanewayapp.github.io/` as part of promoting it.
+
+**Objections were raised and the owner decided to ship it anyway.** They are
+recorded here in full rather than dropped, because the reasons do not go away
+just because the page did.
+
+## Changed
+
+- `index.html` replaced with the device forward direction. Variant A, promoted
+  earlier today, is superseded and recoverable from git history.
+- `og:url` corrected to the current subdomain.
+- `devlog.html`, `CLAUDE.md`, `README.md` untouched.
+
+## Open
+
+- **The device mock invents an interface.** The hero renders an iPhone screen in
+  CSS: a status bar reading 14:02 and 5G, a header, and four plan rows. It is
+  not a capture of the app. The rule in `CLAUDE.md` is that screenshots must be
+  of the app as it actually is, and the standing open item in this journal said
+  there were no screenshots precisely because a mockup would be inventing an
+  interface. This is that mockup, and it is now the largest element on the page.
+  `ios/Laneway.xcodeproj` exists in the product repo, so a real capture is
+  possible and would settle this properly.
+- **"4 legs, 38 min" is not backed by anything on the page.** The legs shown
+  total 13 minutes of movement, and the third leg is stated to have no published
+  timetable, so a total duration cannot be derived from what the reader is
+  shown. It needs to come from the engine or come off the page.
+- **The headline no longer contains the contrast.** A led with "Your map says it
+  is a two hour walk. It is a four minute shuttle." This leads with "Trips that
+  include the legs nothing else will route", which is a capability statement
+  rather than a demonstration. The stronger line is preserved in git.
+- **Still no dark mode**, on either page in the sense that matters: the landing
+  page has no `prefers-color-scheme` block at all while `devlog.html` has three,
+  so a reader in dark mode sees a paper landing page and a night dev log. This
+  carried over from A and is unchanged.
+- **In-page anchors land under the sticky header.** The header is 60px and no
+  section carries a `scroll-margin-top`, so the nav links for the problem, proof
+  and status all put the section heading behind the bar. Present on the previous
+  index as well, so it is an old fault rather than a new one, and it affects
+  `devlog.html` only if the same pattern is used there.
+- **The supported feed list appears twice**, once in the hero and once in the
+  status section, with identical entries.
+- **119px of empty space inside the phone**, about a quarter of the plan card,
+  between the last leg and the footnote. The screen height is fixed at 660px and
+  the content does not fill it.
+
 # Landing page variant A promoted to index - Tuesday Aug 18
 
 *Written 7:56 PM, read off the clock. The start was not recorded, so no

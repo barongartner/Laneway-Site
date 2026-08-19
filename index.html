@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Laneway - the legs no map has indexed</title>
 <meta name="description" content="Verified, multi-modal trip plans including the shuttles, terminal walks and connectors no mapping app has in its graph. Every fact carries a source. In development for iOS.">
-<meta name="theme-color" content="#F7F5ED">
+<meta name="theme-color" content="#FBF9F2">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Laneway - the legs no map has indexed">
 <meta property="og:description" content="Verified, multi-modal trip plans including the shuttles, terminal walks and connectors no mapping app has in its graph.">
@@ -14,16 +14,16 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23172133'/><path d='M9 25 Q9 13 16 13 Q23 13 23 7' stroke='%23E89E2E' stroke-width='3.2' fill='none' stroke-linecap='round'/><circle cx='9' cy='25' r='2.6' fill='%23E89E2E'/></svg>">
 <style>
 /* ============================================================
-   Laneway landing page. Design direction: Boarding pass.
+   Laneway landing page. Design direction: Device forward.
    Self-contained: no build step, no fonts to fetch, no
    third-party requests, nothing to break at load time.
    ============================================================ */
 :root{
-  --bg:#F7F5ED;
+  --bg:#FBF9F2;
   --card:#FFFFFF;
   --ink:#172133;
   --subtle:#6B7587;
-  --rail:#D9D4C7;
+  --rail:#E4DFD0;
   --dead:#A9A296;
   --accent:#E89E2E;
   --accent-deep:#B4761A;
@@ -37,11 +37,11 @@
   --display:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
   --display-weight:700;
   --display-track:-.03em;
-  --chip-font:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
-  --r:0px;
-  --r-sm:2px;
-  --pill:0px;
-  --btn:0px;
+  --chip-font:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --r:20px;
+  --r-sm:9px;
+  --pill:999px;
+  --btn:999px;
   --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
 }
 
@@ -148,38 +148,33 @@ footer .right{margin-left:auto;display:flex;gap:18px}
 @media (max-width:640px){.top nav a.hide-sm{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
-/* ---- Boarding pass ---- */
+/* ---- Device forward ---- */
 
-.brand{font-family:var(--mono)}
-.top nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-.pill{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-.btn{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:14px 22px}
-.hero{padding-bottom:0}
-.hero-grid{display:grid;grid-template-columns:1fr minmax(320px,470px);gap:0;align-items:stretch}
-.hero-copy{padding-right:44px;padding-bottom:52px}
-.stub{position:relative;background:var(--card);border-left:2px dashed var(--rail);padding:36px 34px 30px;display:flex;flex-direction:column}
-.stub::before,.stub::after{content:"";position:absolute;left:-11px;width:22px;height:22px;border-radius:50%;background:var(--bg)}
-.stub::before{top:-11px}
-.stub::after{bottom:-11px}
-.stub-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--subtle);padding-bottom:14px;border-bottom:1px solid var(--rail)}
-.stub-row{display:flex;gap:16px;padding:15px 0;border-bottom:1px solid color-mix(in srgb,var(--rail) 60%,transparent)}
-.stub-row:last-of-type{border-bottom:0}
-.stub-row.hot{background:#FDF7EA;margin:0 -14px;padding-left:14px;padding-right:14px}
-.stub-row .n{font-family:var(--mono);font-size:11px;color:var(--dead);padding-top:3px}
-.stub-row .d{flex:1}
-.stub-row .d b{display:block;font-size:15px;font-weight:640}
-.stub-row .d i{display:block;font-style:normal;font-size:13px;color:var(--subtle);margin-top:2px}
-.stub-row .v{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding-top:4px}
-.stub-row .v.ok{color:var(--ok)}
-.stub-row .v.warn{color:var(--warn)}
-.barcode{margin-top:auto;padding-bottom:2px;padding-top:18px;border-top:2px dashed var(--rail);display:flex;gap:3px;align-items:flex-end;height:52px}
-.barcode span{background:var(--ink)}
-.mono.eyebrow{letter-spacing:.16em}
-h2{max-width:24ch}
-.panel{border-style:dashed}
-.claim,.stage,.feed,.pill{border-radius:0}
-.closer{border-radius:0}
-@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.hero-copy{padding-right:0}.stub{border-left:0;border-top:2px dashed var(--rail);margin-top:32px}.stub::before,.stub::after{display:none}}
+body{background:linear-gradient(165deg,#FBF9F2,#F1EDE0 62%,#FBF9F2)}
+header.top{background:color-mix(in srgb,#FBF9F2 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0}
+.top nav a.now{background:var(--ink);color:var(--plate-fg);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600}
+.pill{box-shadow:0 6px 18px rgba(23,33,51,.06)}
+.btn.primary{box-shadow:0 10px 24px rgba(232,158,46,.3)}
+.hero-grid{display:grid;grid-template-columns:1fr minmax(300px,420px);gap:40px;align-items:center}
+.panel,.claim{box-shadow:0 12px 34px rgba(23,33,51,.07)}
+.phone{width:330px;max-width:100%;margin:0 auto;border-radius:52px;background:#172133;padding:11px;box-shadow:0 34px 74px rgba(23,33,51,.28)}
+.screen{border-radius:42px;background:#0D1421;overflow:hidden;display:flex;flex-direction:column;height:660px;color:#EDF0F5}
+.screen .bar{height:44px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 6px;font-size:12px;font-weight:650}
+.screen .head{padding:10px 20px 0}
+.screen .head span{display:block;font-size:12px;color:#9EA8BA}
+.screen .head b{display:block;font-size:20px;font-weight:700;margin-top:3px}
+.plan{flex:1;margin:14px 12px 12px;border-radius:26px;background:#131C2C;border:1px solid #24314A;padding:14px;display:flex;flex-direction:column;gap:10px}
+.pl{display:flex;gap:11px;align-items:flex-start;background:#1A2436;border-radius:14px;padding:12px}
+.pl.warn{background:#241F14;border:1px solid #6A5326}
+.pl .dot{flex:none;width:9px;height:9px;border-radius:50%;background:#43BC7E;margin-top:5px}
+.pl.warn .dot{background:#E0A94A}
+.pl b{display:block;font-size:13.5px;font-weight:640}
+.pl i{display:block;font-style:normal;font-size:11.5px;color:#9EA8BA;margin-top:2px}
+.pl.warn i{color:#E0A94A}
+.plan .note{margin-top:auto;border-top:1px solid #24314A;padding-top:11px;font-size:11px;color:#9EA8BA;line-height:1.45}
+.screen .home{height:26px;display:flex;justify-content:center;align-items:flex-start}
+.screen .home span{width:120px;height:4px;border-radius:2px;background:#3A4762}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -187,7 +182,7 @@ h2{max-width:24ch}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="./">
-      <span style="font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;letter-spacing:.22em">LANEWAY</span>
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#172133"/><path d="M9 25 Q9 13 16 13 Q23 13 23 7" stroke="#E89E2E" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="9" cy="25" r="2.6" fill="#E89E2E"/></svg> LANEWAY
     </a>
     <nav>
       <a class="hide-sm" href="#problem">The problem</a>
@@ -202,44 +197,34 @@ h2{max-width:24ch}
 
 <div class="wrap hero">
   <div class="hero-grid">
-    <div class="hero-copy">
+    <div>
       <span class="pill"><span class="dot"></span>In development, iOS first</span>
-      <h1>Your map says it is a <em>two hour walk</em>. It is a four minute shuttle.</h1>
+      <h1>Trips that include the legs nothing else will route.</h1>
       <p class="lede">
-        Laneway plans across the connections no mapping app has in its data:
-        terminal interiors, operator shuttles, hotel vans, the unmarked post
-        outside door D. Every fact carries the source it came from.
+        Shuttles with no feed. Walks through terminal interiors. The unmarked post
+        outside door D. Laneway plans them, and every fact it gives you carries the
+        source it came from.
       </p>
       <div class="actions">
-        <a class="btn primary" href="#problem">See the case</a>
+        <a class="btn primary" href="#problem">See the case it was built for</a>
         <a class="btn ghost" href="devlog.html">Read the dev log</a>
       </div>
+      <div class="feeds" style="margin-top:34px">
+        <span class="feed">UP Express</span><span class="feed">GO Transit</span><span class="feed">TTC</span><span class="feed">MiWay</span><span class="feed">Calgary Transit</span>
+      </div>
     </div>
-    <div class="stub">
-      <div class="stub-head"><span>YYZ T1 / RENTAL DEPOT</span><span>4 LEGS</span></div>
-      
-        <div class="stub-row">
-          <span class="n">01</span>
-          <span class="d"><b>Walk to the LINK platform, level 3</b><i>6 min, inside the terminal</i></span>
-          <span class="v ok">VERIFIED</span>
+    <div class="phone">
+      <div class="screen">
+        <div class="bar"><span>14:02</span><span>5G</span></div>
+        <div class="head"><span>Pearson T1 to rental depot</span><b>4 legs, 38 min</b></div>
+        <div class="plan">
+            <div class="pl ok"><span class="dot"></span><span><b>Walk to LINK, level 3</b><i>6 min / verified</i></span></div>
+            <div class="pl ok"><span class="dot"></span><span><b>LINK train to Terminal 3</b><i>4 min / verified</i></span></div>
+            <div class="pl warn"><span class="dot"></span><span><b>Operator shuttle</b><i>Roughly every 20 min. Unverified, call ahead.</i></span></div>
+            <div class="pl ok"><span class="dot"></span><span><b>Walk to the rental counter</b><i>3 min / verified</i></span></div>
+          <div class="note">Every leg carries the source it came from and the moment it was fetched.</div>
         </div>
-        <div class="stub-row">
-          <span class="n">02</span>
-          <span class="d"><b>LINK train to Terminal 3</b><i>4 min, runs continuously</i></span>
-          <span class="v ok">VERIFIED</span>
-        </div>
-        <div class="stub-row hot">
-          <span class="n">03</span>
-          <span class="d"><b>Operator shuttle from the arrivals post</b><i>Roughly every 20 min, no published timetable</i></span>
-          <span class="v warn">CALL AHEAD</span>
-        </div>
-        <div class="stub-row">
-          <span class="n">04</span>
-          <span class="d"><b>Walk to the rental counter</b><i>3 min</i></span>
-          <span class="v ok">VERIFIED</span>
-        </div>
-      <div class="barcode">
-        <span style="flex:1;height:100%"></span><span style="flex:2;height:60%"></span><span style="flex:1;height:100%"></span><span style="flex:3;height:80%"></span><span style="flex:1;height:45%"></span><span style="flex:2;height:100%"></span><span style="flex:1;height:70%"></span><span style="flex:4;height:90%"></span><span style="flex:1;height:55%"></span><span style="flex:2;height:100%"></span><span style="flex:1;height:75%"></span><span style="flex:3;height:60%"></span>
+        <div class="home"><span></span></div>
       </div>
     </div>
   </div>
