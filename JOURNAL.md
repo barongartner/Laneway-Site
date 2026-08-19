@@ -1,3 +1,58 @@
+# Dev Log Entries Now Share One Measure - Wednesday Aug 19
+
+*Written 12:03 PM, read off the clock.*
+
+## Timeline
+
+**Reported as "not wide enough and looks weird cut off".** Measured rather
+than eyeballed, at 1280 wide: the metrics band above the entries ends at
+x=1168, and so does the rule under every note, but the note text stopped at
+x=944, the body at x=965 and the headline at x=825. Three different right
+edges, none of them reaching the rules that sit directly under them, and 224px
+of empty column to the right of every line.
+
+**The cause was four separate `ch` caps.** The headline was capped at 24ch at
+30px, the body at 64ch at 16px, notes at 66ch at 15px and the pull quote at
+60ch at 16px. A `ch` is relative to the element's own font size, so four caps
+that look consistent in the stylesheet resolve to four different pixel widths
+on the page. Nothing was overflowing and nothing was truncated; the text was
+simply stopping in four different places, short of the rules.
+
+**Fixed by moving the measure up to the grid.** The entry grid was a fixed
+170px version column and a `1fr` content column that was far wider than
+anything allowed to fill it. It is now `minmax(150px,1fr)` for the version
+column and a single `minmax(0,760px)` cap on the content column, with the four
+`ch` caps deleted. The measure is declared once, every child inherits it, and
+the version column absorbs the slack so the content's right edge lands on the
+page's right edge.
+
+## Changed
+
+- `devlog.html`, five lines: the `.entry` grid template, and the `max-width`
+  removed from `.entry h2`, `.entry .body`, `.notes li` and `.quote`.
+
+**Checked, not assumed.** At 1280 the headline, body and notes now all end at
+x=1168, level with the metrics band, and the measure went from 624px to 760px.
+Read back from the DOM at 1440, 1280, 1000, 860 and 375: right edges level with
+the metrics band at every one, and no horizontal overflow at any. The 820px
+breakpoint still collapses to a single column, and all fourteen entries still
+render on a phone. A side effect worth having: the version column is wider, so
+`0.18.1 / 0.19.0` sits on one line instead of wrapping.
+
+## Open
+
+- **The wordmark crop was left alone.** `Dev log` is set at `min(27vw,310px)`
+  inside a frame with `overflow:hidden`, and the comment above `.plate` says
+  the wordmark is set past the measure so the frame crops it, which is what a
+  specimen does. It is deliberate, so it was not touched while fixing a
+  different complaint. If the crop is what reads as wrong rather than the
+  margins, that is a separate decision about the plate.
+- On a phone the wordmark runs under the CAP HEIGHT, X-HEIGHT and BASELINE
+  labels at the right edge. Same deliberate element, but the overlap is
+  incidental rather than designed. Noted, not changed.
+- Unchanged from earlier today: no dark mode on the landing page, and in-page
+  anchors still landing under the sticky header on both pages.
+
 # The Page Reads the Markdown Itself - Wednesday Aug 19
 
 *Written 11:47 AM, read off the clock. Replaces the approach committed about
