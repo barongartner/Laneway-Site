@@ -285,11 +285,10 @@ verification.
   a free demo plan so the interface can be worked on without spending a cent.
 
 ## Day zero | Friday Aug 7
-### One rule, written before any code
+### Just working, boiler plate stuff
 
 > Never present a fact the system cannot back up. One fabricated shuttle stop
 > destroys trust permanently.
-> -- From the project's working context, written first
 
 Everything since has been an argument with that sentence, and the sentence has
 won every time.
