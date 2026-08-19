@@ -8,7 +8,9 @@ Live at <https://lanewayapp.github.io/>.
 ## Layout
 
 - `index.html` - the landing page
-- `devlog.html` - the engineering log, newest entry first
+- `devlog.md` - the engineering log, newest entry first. **Edit this one.**
+- `devlog.html` - generated from `devlog.md`, committed complete. Do not hand edit.
+- `tools/build_devlog.py` - the generator, standard library only
 - `CLAUDE.md` - working context, read it before touching anything
 - `JOURNAL.md` - session log for this repo
 
@@ -25,6 +27,19 @@ python3 -m http.server 8076
 
 Both pages are self-contained: styles are inline, there are no fonts to fetch, no
 scripts, and no third-party requests. They render with no network at all.
+
+## Editing the dev log
+
+Write the entry in `devlog.md`, newest at the top, then:
+
+```bash
+python3 tools/build_devlog.py
+```
+
+That rewrites the entries and the metrics band inside `devlog.html` and leaves
+the rest of the page alone. Pushing `devlog.md` to `main` runs the same script
+in CI and commits the result, so the page updates either way. The markdown
+subset the generator accepts is documented in `CLAUDE.md`.
 
 ## Editing
 

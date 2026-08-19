@@ -5,10 +5,14 @@
 The public face of Laneway: a landing page and an engineering dev log, served by
 GitHub Pages at <https://lanewayapp.github.io/>.
 
-Two files, one page each, both self-contained:
+Two pages, both self-contained:
 
 - `index.html` - what Laneway is, the anchor case, how verification works, honest status
 - `devlog.html` - what got built, what broke, what was decided. Newest entry first.
+
+The dev log page is generated. `devlog.md` is the source of truth for its
+entries and its metrics band; `tools/build_devlog.py` renders them into
+`devlog.html`. Edit the markdown, never the generated regions of the HTML.
 
 The product itself lives in `barongartner/LANEWAY`, which is **private and stays
 private**. This repo is public. Treat the boundary between them as the most
@@ -79,8 +83,13 @@ sys.exit(1 if bad else 0)
 
 ## Technical rules
 
-- **No build step, ever.** Someone should be able to open `index.html` in a
-  browser and see the finished page. No bundler, no framework, no npm.
+- **No build step between the repo and the reader.** Someone should be able to
+  open either page in a browser, straight off disk, and see the finished page.
+  No bundler, no framework, no npm, and nothing fetched at runtime to fill the
+  page in. The generated `devlog.html` is committed complete for exactly this
+  reason: `tools/build_devlog.py` runs before the commit, never in the browser.
+  It is standard library Python with no dependencies, and CI runs the same
+  script so the published page cannot drift from `devlog.md`.
 - **No third-party requests at runtime.** No CDN, no web fonts, no analytics, no
   embedded video, no form services. The page must render fully offline. This is
   not only privacy hygiene; it is why the page cannot break at load time.
@@ -109,6 +118,36 @@ marketing and gets skimmed.
 
 Format per entry: a version or a short label, a spelled-out date with the weekday,
 a headline, and the notes. Newest first, at the top of the list.
+
+Entries are written in `devlog.md`, in the small markdown subset the generator
+accepts. Nothing else is supported, on purpose:
+
+```markdown
+## 0.19.0 | Monday Aug 17          version or phase name, then the date
+### The headline for the entry
+> A pull quote, optional
+> -- who said it, optional
+A paragraph, optional.
+- **A bold lead in.** Then the note itself.
+- [ok] **A verdict tag** instead of a bold lead. [bad] works the same way.
+```
+
+Inline marks are `**bold**` and `*italic*`, and that is the whole list. A
+version beginning with a digit is set as a display figure; anything else, like
+`Direction` or `Day zero`, is set as a mono label, because it is a label and
+not a release. The metrics band at the top of the page comes from the
+`# Metrics` section of the same file, so the numbers `CLAUDE.md` warns about
+going stale live beside the entries that would make them stale.
+
+After editing, run:
+
+```bash
+python3 tools/build_devlog.py          # rewrite devlog.html
+python3 tools/build_devlog.py --check  # exit 1 if it is out of date
+```
+
+Pushing `devlog.md` to `main` runs the same script in CI and commits the
+result, so the page updates whether or not the script was run by hand.
 
 ## JOURNAL.md
 

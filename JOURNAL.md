@@ -1,3 +1,75 @@
+# The Dev Log Becomes Markdown, and the Page Is Generated From It - Wednesday Aug 19
+
+*Written 11:35 AM, read off the clock. The start was not recorded, so no
+duration is claimed here.*
+
+## Timeline
+
+**The ask was to write entries as markdown and have the page follow.** The
+obvious version, fetching `devlog.md` from the page and rendering it in the
+browser, was rejected before it was built. A `fetch` of a sibling file fails
+from a `file://` origin, which would have broken the property this repo has
+protected from the start: open the page off disk and see the finished page.
+It would also have made the log invisible without JavaScript, to crawlers and
+to link unfurls, and it would have meant inlining someone else's markdown
+parser into a file whose rule is that it is self contained.
+
+**Generating at commit time keeps every property.** `devlog.md` is now the
+source of truth. `tools/build_devlog.py` renders it into `devlog.html`, which
+stays committed complete: no script on the page, no fetch, no dependency,
+works from disk, still one file.
+
+**The generator is small because the log is regular.** A survey of the
+existing page first: fourteen entries, and the only inline markup in the whole
+file was thirty nine `<b>`, one `<i>`, and three verdict tag spans. No links,
+no code spans, no nested lists. So this is not a markdown library, it is a
+parser for the one shape the log actually uses, in standard library Python
+with no dependencies. Two block types beyond paragraphs and notes: the pull
+quote used by two entries, and the `[ok]` and `[bad]` verdict tags used by
+three notes.
+
+**Parity was proved, not assumed.** The existing fourteen entries were
+extracted to `devlog.md` by a throwaway script, then rendered back through the
+generator and compared against a pristine copy of the original page. The tag
+sequence including classes is identical, 522 to 522, and the visible text is
+identical, 15835 characters to 15835. Only line wrapping inside text nodes
+differs, which changes nothing rendered. Checked in a browser as well: four
+metrics, fourteen entries, two quotes, three tags, forty two notes, and the
+version treatment still splits correctly, `0.18.1 / 0.19.0` as a display
+figure and `Day zero` as a mono label.
+
+## Changed
+
+- `devlog.md`, new, the source of truth for the entries and the metrics band.
+- `tools/build_devlog.py`, new. `--check` exits 1 when the page is stale.
+- `devlog.html` now carries four marker comments. The generator rewrites only
+  what sits between them and never touches the styles, masthead or footer.
+- `.github/workflows/devlog.yml`, new. On a push that touches `devlog.md` or
+  the generator it renders, runs the non-ASCII check, and commits the result
+  only if it differs. The path filter excludes `devlog.html`, so the commit it
+  makes cannot retrigger it.
+- `CLAUDE.md`: the no build step rule is amended to "no build step between the
+  repo and the reader", with the reason spelled out, and the dev log section
+  now documents the markdown subset. `README.md` says which file to edit.
+
+## Open
+
+- **The workflow cannot push yet.** The repo's default workflow permission is
+  read, so the commit step would fail. Nothing fails today, because the commit
+  step exits early when there is no diff and the page is currently in sync.
+  Flipping it to write is a repository setting and was left for the owner to
+  decide, since it is the setting that stops a compromised action from writing
+  to the repo. Until it is flipped, `python3 tools/build_devlog.py` before
+  committing is the working path, and CI is a no-op.
+- **The markdown subset is deliberately small.** A link in an entry, a nested
+  list, or a code span will not render; the generator escapes first, so it
+  fails visibly as literal text rather than silently emitting broken markup.
+  Widening it is a change to the generator, not something to work around in
+  the source.
+- The landing page still has no dark mode, and in-page anchors still land
+  under the sticky header. Both carried over from earlier today and are
+  untouched.
+
 # Device forward promoted to index - Tuesday Aug 18
 
 *Written 8:20 PM, read off the clock. Second session entry today; the first
