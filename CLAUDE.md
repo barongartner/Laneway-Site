@@ -100,20 +100,9 @@ sys.exit(1 if bad else 0)
   library and must never become a fetched one: no CDN, no npm, no third-party
   request. `devlog.md` is a sibling file on the same origin, which is why
   fetching it does not break the no-third-party rule.
-- **No third-party requests at runtime**, with one named exception. No CDN, no
-  web fonts, no embedded video, no form services, and nothing that can keep the
-  page from finishing its load.
-- **The one exception, owner decision Friday Aug 21: site analytics.** Both
-  pages beacon a page view to `laneway-analytics.humbolt.workers.dev`, a worker
-  on the owner's own Cloudflare account, source in `~/Desktop/laneway-analytics`.
-  It is not a third-party analytics service and it sells nothing. The call is
-  fire and forget in a `try`, with a `.catch` that swallows failures, so a
-  blocked or dead endpoint cannot affect the page. It stores coarse location
-  from Cloudflare's edge, the path, the referrer's origin, a parsed user agent,
-  and the `?v=` link tag. It stores **no IP address**: daily uniques are a
-  salted hash that rotates every day, so it cannot follow anyone across days,
-  and there is no cookie and nothing to consent to. If that ever stops being
-  true, this exception has to be revisited rather than quietly widened.
+- **No third-party requests at runtime.** No CDN, no web fonts, no analytics, no
+  embedded video, no form services. The page must render fully offline. This is
+  not only privacy hygiene; it is why the page cannot break at load time.
 - **Each page is one file.** Styles are inline in a `<style>` block and duplicated
   across the two pages on purpose. That duplication is the price of having no
   build step, and it is worth paying. When a shared token changes, change it in
