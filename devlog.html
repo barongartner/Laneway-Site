@@ -215,6 +215,13 @@ footer .right{margin-left:auto;display:flex;gap:18px}
 .fallback{color:var(--subtle);font-size:15px;max-width:60ch;margin:0}
 .fallback a{color:var(--accent-deep)}
 </style>
+<script>
+(function(){try{var t=new URLSearchParams(location.search).get('v');
+fetch('https://laneway-analytics.humbolt.workers.dev/hit',{method:'POST',
+headers:{'content-type':'application/json'},keepalive:true,
+body:JSON.stringify({path:location.pathname,referrer:document.referrer||'',
+screen:screen.width+'x'+screen.height,tag:t})}).catch(function(){});}catch(e){}})();
+</script>
 </head>
 <body>
 
